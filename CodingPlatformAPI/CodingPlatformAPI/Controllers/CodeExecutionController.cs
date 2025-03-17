@@ -24,10 +24,10 @@ public class CodeExecutionController : ControllerBase
 
         try
         {
-            // ✅ Write the source code to a temporary file
+            //Write the source code to a temporary file
             System.IO.File.WriteAllText(sourceFile, code);
 
-            // ✅ Write user input to a separate file
+            // Write user input to a separate file
             System.IO.File.WriteAllText(inputFile, input);
 
             if (language == "python")
@@ -55,7 +55,7 @@ public class CodeExecutionController : ControllerBase
                 result = ExecuteCommand(GetCSharpCommand(sourceFile, inputFile, outputFile));
             }
 
-            // ✅ Read output from the file (if it exists)
+            // Read output from the file (if it exists)
             return System.IO.File.Exists(outputFile) ? System.IO.File.ReadAllText(outputFile) : "Execution error!";
         }
         catch (Exception ex)
@@ -64,7 +64,7 @@ public class CodeExecutionController : ControllerBase
         }
         finally
         {
-            // ✅ Cleanup temporary files
+            //Cleanup temporary files
             DeleteFile(sourceFile);
             DeleteFile(inputFile);
             DeleteFile(outputFile);

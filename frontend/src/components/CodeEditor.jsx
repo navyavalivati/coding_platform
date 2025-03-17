@@ -7,78 +7,118 @@ const CodeEditor = () => {
   const [language, setLanguage] = useState("python");
   const [userInput, setUserInput] = useState("");
   const [output, setOutput] = useState("");
-  const [editorSize, setEditorSize] = useState({
-    width: window.innerWidth * 0.9,
-    height: window.innerHeight * 0.6
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setEditorSize({
-        width: Math.max(window.innerWidth * 0.9, 600),  //min width of 600px
-        height: Math.max(window.innerHeight * 0.6, 300) //min height of 300px
-      });
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const handleRunCode = async () => {
     setOutput("Executing...");
-    const result = await runCode(code, language, userInput); // call the api
+    const result = await runCode(code, language, userInput);
     setOutput(result);
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "20px", background: "#f4f4f4", minHeight: "100vh" }}>
-      <h2>Online Coding Platform</h2>
+    <div
+      style={{
+        display: "flex",
+        width: "100vw",
+        height: "100vh",
+        background: "#f4f4f4"
+      }}
+    >
+      <div style={{ flex: 0.65, display: "flex", flexDirection: "column", padding: "20px", background: "#1e1e1e", color: "white" }}>
+        <h2 style={{ marginBottom: "10px" }}>Online Coding Platform</h2>
 
-      {/* Language Selection Dropdown */}
-      <select
-        style={{ padding: "10px", marginBottom: "10px", fontSize: "16px" }}
-        onChange={(e) => setLanguage(e.target.value)}
-        value={language}
-      >
+        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+        <select
+            style={{
+            padding: "10px",
+            marginBottom: "10px",
+            fontSize: "12px",
+            background: "#333",
+            color: "white",
+            border: "1px solid #555"
+          }}
+          onChange={(e) => setLanguage(e.target.value)}
+          value={language}
+        >
         <option value="python">Python</option>
         <option value="javascript">JavaScript</option>
         <option value="java">Java</option>
         <option value="c">C</option>
         <option value="cpp">C++</option>
         <option value="csharp">C#</option>
-      </select>
+        </select>
+        </div>
 
-      {/* Monaco Editor */}
-      <div style={{ width: editorSize.width, height: editorSize.height, border: "1px solid #ccc", borderRadius: "5px", background: "#1e1e1e" }}>
-        <Editor
-          height={editorSize.height}
-          width={editorSize.width}
-          theme="vs-dark"
-          language={language}
-          value={code}
-          onChange={(value) => setCode(value)}
-          options={{ minimap: { enabled: false } }}
-        />
+        <div style={{ flex: 1, border: "1px solid #ccc", borderRadius: "5px" }}>
+          <Editor
+            height="100%"
+            width="100%"
+            theme="vs-dark"
+            language={language}
+            value={code}
+            onChange={(value) => setCode(value)}
+            options={{ minimap: { enabled: false } }}
+          />
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+  <button
+    style={{
+      marginTop: "10px",
+      padding: "10px 20px",
+      background: "rgb(36 49 120)",
+      color: "white",
+      border: "none",
+      cursor: "pointer",
+      borderRadius: "5px",
+      fontSize: "12px"
+    }}
+    onClick={handleRunCode}
+  >
+    Run Code
+  </button>
+</div>
       </div>
 
-      {/* User Input Box */}
-      <textarea
-        style={{ width: "90%", maxWidth: "1200px", height: "100px", marginTop: "10px", padding: "10px", border: "1px solid #ccc", borderRadius: "5px", fontSize: "16px" }}
-        placeholder="Enter input values..."
-        value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
-      ></textarea>
+      <div style={{ flex: 0.35, display: "flex", flexDirection: "column", padding: "20px", background: "#3c3c3c", color: "white" }}>
+       
+        <div style={{ flex: 0.25 }}>
+          <h4>User Input</h4>
+          <textarea
+            style={{
+              width: "90%",
+              height: "90%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              fontSize: "12px",
+              background: "#1e1e1e",
+              color: "white"
+            }}
+            placeholder="Enter input values..."
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+          ></textarea>
+        </div>
 
-      {/* Run Code Button */}
-      <button
-        style={{ marginTop: "10px", padding: "10px 20px", background: "#007bff", color: "white", border: "none", cursor: "pointer", borderRadius: "5px", fontSize: "16px" }}
-        onClick={handleRunCode}
-      >
-        Run Code
-      </button>
-
-      {/* Output Box */}
-      <div style={{ marginTop: "10px", padding: "10px", background: "#333", color: "lime", whiteSpace: "pre-wrap", width: "90%", maxWidth: "1200px", minHeight: "100px", border: "1px solid #ccc", borderRadius: "5px", fontSize: "16px" }}>
-        {output}
+        <div style={{ flex: 0.55, marginTop: "60px" }}>
+          <h4>Output</h4>
+          <div
+            style={{
+              padding: "10px",
+              background: "#333",
+              color: "lime",
+              whiteSpace: "pre-wrap",
+              width: "70%%",
+              height: "90%",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              fontSize: "12px",
+              overflowY: "auto"
+            }}
+          >
+            {output}
+          </div>
+        </div>
       </div>
     </div>
   );
