@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "CodeExecutionController",
+    "Method": "ExecuteCode",
+    "RelativePath": "api/execute",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CodeRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
