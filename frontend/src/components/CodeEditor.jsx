@@ -3,11 +3,18 @@ import Editor from "@monaco-editor/react";
 import { runCode } from "../api";
 
 const CodeEditor = () => {
-  const [code, setCode] = useState("// Write your code here");
+  const getDefaultCode = (lang) => {
+    return lang === "python" ? "# Write your code here" : "// Write your code here";
+  };
   const [language, setLanguage] = useState("python");
+  const [code, setCode] = useState(getDefaultCode(language));
   const [userInput, setUserInput] = useState("");
   const [output, setOutput] = useState("");
 
+  useEffect(() => {
+    setCode(getDefaultCode(language));
+  }, [language]);
+  
   const handleRunCode = async () => {
     setOutput("Executing...");
     const result = await runCode(code, language, userInput);
